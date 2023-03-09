@@ -1,3 +1,26 @@
+def find_max_path(i,j,threshold):
+    counter = 0
+    visited = []
+
+    occupied[i][j] = True
+    visited.append([i,j])
+    for k in range(int(snakes[0]) - 1):
+        max_neighbour = get_max_neighbour(i,j)
+        if max_neighbour[2] > threshold:
+            counter += 1
+            visited.append(max_neighbour)
+            if type(max_neighbour[1]) == list:
+                k += 1
+            i,j = max_neighbour[0]
+            occupied[i][j] = True
+        if ( max_neighbour[2] < threshold ):
+            pass
+    return visited
+        
+
+
+        
+
 def get_max_index(system):
     max_val = 0
     max_pos = [0,0]
@@ -143,7 +166,29 @@ for i in range(rows):
         if line[j] == "*":
             warmholes.append([i,j])
 
+snakes = sorted(snakes, key=int, reverse=True)
+
 # get max index from system
-max_idx = get_max_index(system)
-pos = get_max_neighbour(4,4)
-print(pos)
+# pos = get_max_index(system)
+# pos = get_max_neighbour(0,0)
+# print(pos)
+k = len(snakes)
+v = []
+for k in range(k):
+    i,j = get_max_index(system)
+    visited = find_max_path(i,j,0)
+    # remove first snake
+    snakes.pop(0)
+    v.append(visited)
+
+for i in range(len(v)):
+    for j in range(len(v[i])):
+        if j == 0:
+            print(v[i][j][0], v[i][j][1], end=" ")
+        elif type(v[i][j][1]) == 'str':
+            print(v[i][j][1], end=" ")
+        elif type(v[i][j][1]) == 'list':
+            print(v[i][j][1][0], v[i][j][1][1], end=" ")
+    print()
+# v = find_max_path(0,0,0)
+# print(v)
