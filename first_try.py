@@ -19,34 +19,63 @@ def get_max_neighbour(i,j):
     max_val = 0
     max_type = ""
 
-    if up_val != None:
+    if up_val[2] != '*':
         if up_val[2] > max_val and up_val[3] == False:
             max_val = up_val[2]
             max_pos = up_val[0],up_val[1]
             max_type = "U"
-    if down_val != None:
+    elif up_val[2] == '*' :
+        for w in warmholes:
+            max_pos_temp,max_type_temp,max_val_temp = get_max_neighbour(w[0],w[1])
+            if max_val_temp > max_val:
+                max_val = max_val_temp
+                max_pos = max_pos_temp
+                max_type = ['U', max_type_temp]
+
+    if down_val[2] != '*':
         if down_val[2] > max_val and down_val[3] == False:
             max_val = down_val[2]
             max_pos =  down_val[0],down_val[1]
             max_type = "D"
-    if left_val != None:
+    elif down_val[2] == '*' :
+        for w in warmholes:
+            max_pos_temp,max_type_temp,max_val_temp = get_max_neighbour(w[0],w[1])
+            if max_val_temp > max_val:
+                max_val = max_val_temp
+                max_pos = max_pos_temp
+                max_type = ['D', max_type_temp]
+    if left_val[2] != '*':
         if left_val[2] > max_val and left_val[3] == False:
             max_val = left_val[2]
             max_pos = left_val[0],left_val[1]
             max_type = "L"
-    if right_val != None:
+    elif left_val[2] == '*' :
+        for w in warmholes:
+            max_pos_temp,max_type_temp,max_val_temp = get_max_neighbour(w[0],w[1])
+            if max_val_temp > max_val:
+                max_val = max_val_temp
+                max_pos = max_pos_temp
+                max_type = ['L', max_type_temp]
+    if right_val[2] != '*':
         if right_val[2] > max_val and right_val[3] == False:
             max_val = right_val[2]
             max_pos = right_val[0],right_val[1]
             max_type = "R"
+    elif right_val[2] == '*':
+        for w in warmholes:
+            max_pos_temp,max_type_temp,max_val_temp = get_max_neighbour(w[0],w[1])
+            if max_val_temp > max_val:
+                max_val = max_val_temp
+                max_pos = max_pos_temp
+                max_type = ['R', max_type_temp]
     
-    return max_pos,max_type
+    return max_pos,max_type,max_val
     
 
 def down(i,j):
     if i < rows-1:
         if system[i+1][j] == "*":
-            return
+            return i+1,j,'*',False
         else:
             return i+1,j,int(system[i+1][j]),occupied[i+1][j]
     elif i == rows-1:
@@ -55,7 +84,7 @@ def down(i,j):
 def up(i,j):
     if i > 0:
         if system[i-1][j] == "*":
-            return
+            return i-1,j,'*',False
         else:
             return i-1,j,int(system[i-1][j]),occupied[i-1][j]
     elif i == 0:
@@ -64,7 +93,7 @@ def up(i,j):
 def right(i,j):
     if j < columns-1:
         if system[i][j+1] == "*":
-            return
+            return i,j+1,'*',False
         else:
             return i,j+1,int(system[i][j+1]),occupied[i][j+1]
     elif j == columns-1:
@@ -73,7 +102,7 @@ def right(i,j):
 def left(i,j):
     if j > 0:
         if system[i][j-1] == "*":
-            return
+            return i,j-1,'*',False
         else:
             return i,j-1,int(system[i][j-1]),occupied[i][j-1]
     elif j == 0:
@@ -116,5 +145,5 @@ for i in range(rows):
 
 # get max index from system
 max_idx = get_max_index(system)
-[pos, type] = get_max_neighbour(max_idx[0],max_idx[1])
-print(pos,type)
+pos = get_max_neighbour(4,4)
+print(pos)
