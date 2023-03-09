@@ -184,11 +184,12 @@ for k in range(k):
 for i in range(len(v)):
     for j in range(len(v[i])):
         if j == 0:
-            print(v[i][j][0], v[i][j][1], end=" ")
-        elif type(v[i][j][1]) == 'str':
-            print(v[i][j][1], end=" ")
-        elif type(v[i][j][1]) == 'list':
-            print(v[i][j][1][0], v[i][j][1][1], end=" ")
+            print(v[i][j][0],v[i][j][1],end=" ")
+
+        elif type(v[i][j][1]) == str:
+            print(v[i][j][1], end = " ")
+
+        elif type(v[i][j][1]) == list:
+            # print(type(v[i][j][1]))
+            print(v[i][j][1][0],v[i][j][0][1],v[i][j][0][0], v[i][j][1][1], end = " ")
     print()
-# v = find_max_path(0,0,0)
-# print(v)
