@@ -1,3 +1,16 @@
+def get_max_index(system):
+    max_val = 0
+    max_pos = [0,0]
+    for i in range(len(system)):
+        for j in range(len(system[i])):
+            if system[i][j] == "*":
+                continue
+            elif int(system[i][j]) > max_val and occupied[i][j] == False:
+                max_val = int(system[i][j])
+                max_pos = [i,j]
+                
+    return max_pos
+
 def down(i,j):
     if i < rows-1:
         if system[i+1][j] == "*":
@@ -69,4 +82,6 @@ for i in range(rows):
         if line[j] == "*":
             warmholes.append([i,j])
 
-print(warmholes)
+# get max index from system
+max_idx = get_max_index(system)
+print(max_idx)
