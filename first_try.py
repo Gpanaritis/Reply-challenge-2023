@@ -11,6 +11,38 @@ def get_max_index(system):
                 
     return max_pos
 
+def get_max_neighbour(i,j):
+    up_val = up(i,j)
+    down_val = down(i,j)
+    left_val = left(i,j)
+    right_val = right(i,j)
+    max_val = 0
+    max_type = ""
+
+    if up_val != None:
+        if up_val[2] > max_val and up_val[3] == False:
+            max_val = up_val[2]
+            max_pos = up_val[0],up_val[1]
+            max_type = "U"
+    if down_val != None:
+        if down_val[2] > max_val and down_val[3] == False:
+            max_val = down_val[2]
+            max_pos =  down_val[0],down_val[1]
+            max_type = "D"
+    if left_val != None:
+        if left_val[2] > max_val and left_val[3] == False:
+            max_val = left_val[2]
+            max_pos = left_val[0],left_val[1]
+            max_type = "L"
+    if right_val != None:
+        if right_val[2] > max_val and right_val[3] == False:
+            max_val = right_val[2]
+            max_pos = right_val[0],right_val[1]
+            max_type = "R"
+    
+    return max_pos,max_type
+    
+
 def down(i,j):
     if i < rows-1:
         if system[i+1][j] == "*":
@@ -84,4 +116,5 @@ for i in range(rows):
 
 # get max index from system
 max_idx = get_max_index(system)
-print(max_idx)
+[pos, type] = get_max_neighbour(max_idx[0],max_idx[1])
+print(pos,type)
